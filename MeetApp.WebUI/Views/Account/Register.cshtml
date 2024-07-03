@@ -1,0 +1,80 @@
+﻿@using MeetApp.Business.Modules.AccountModule.Commands.RegisterCommand
+@model RegisterRequest
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Design by foolishdeveloper.com -->
+    <title>AZ Meet Register</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link href="~/css/register.css" rel="stylesheet" />
+</head>
+<body>
+
+    <section>
+        <div class="container">
+            <div class="form-container d-flex justify-content-center align-items-center mt-4 position-relative">
+                <div class="background">
+                    <div class="shape"></div>
+                    <div class="shape"></div>
+                </div>
+                <form method="post">
+                    <h3><a class="text-decoration-none" asp-action="index" asp-controller="home"><img class="logo" src="~/assets/icons/logo.png" />AZ Meet</a> SignUp</h3>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-group">
+                                <label asp-for="Fullname"></label>
+                                <input asp-for="Fullname" placeholder="Fullname ">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <div class="form-group">
+                                <label asp-for="Username"></label>
+                                <input asp-for="Username" placeholder="Username">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" placeholder="Email">
+
+                    <label asp-for="Password"></label>
+                    <input type="password" placeholder="Password" asp-for="Password">
+
+                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                    <input type="password" placeholder="Password" asp-for="ConfirmPassword">
+                    <div class="mt-2">
+                        Do you have an account? <a asp-action="signin" asp-controller="account">Login</a>
+                    </div>
+
+                    <button>Sign Up</button>
+                    <div class="social">
+                        <div class="go">
+                            <i class="fab fa-google"></i>  Google
+                        </div>
+                        <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

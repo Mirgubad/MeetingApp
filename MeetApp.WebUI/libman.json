@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "microsoft-signalr@8.0.0",
+      "destination": "wwwroot/lib/microsoft-signalr/"
+    },
+    {
+      "library": "webrtc-adapter@9.0.1",
+      "destination": "wwwroot/lib/webrtc-adapter/"
+    },
+    {
+      "library": "peerjs@1.5.4",
+      "destination": "wwwroot/lib/peerjs/"
+    },
+    {
+      "library": "sweetalert2@11.12.1",
+      "destination": "wwwroot/lib/sweetalert2/"
+    }
+  ]
+}

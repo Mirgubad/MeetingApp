@@ -50,7 +50,7 @@ public class Program
             .AddCookie(cfg =>
             {
                 cfg.LoginPath = "/signin.html";
-                cfg.AccessDeniedPath = "/accessdenied.html";
+                cfg.AccessDeniedPath = "/access-denied.html";
                 cfg.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 
                 cfg.Cookie.Name = "AZMeet";

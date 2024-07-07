@@ -17,57 +17,58 @@ namespace MeetApp.Infrastructure.Commons.Concretes
         }
 
 
-        public T Add(T model)
+        public async Task<T> AddAsync(T model)
         {
-            _table.Add(model);
-            Save();
+            await _table.AddAsync(model);
+            await SaveAsync();
             return model;
         }
 
-        public T Edit(T model)
+        public async Task<T> EditAsync(T model)
         {
             _table.Entry(model).State = EntityState.Modified;
-            Save();
+            await SaveAsync();
             return model;
         }
 
-        public T Get(Expression<Func<T, bool>> predicate = null)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate = null)
         {
-            if (predicate == null)
-            {
-                return _table.FirstOrDefault();
-            }
+            if (predicate is null)
+                return await _table.FirstOrDefaultAsync();
 
-            var model = _table.FirstOrDefault(predicate);
+            var data = await _table.FirstOrDefaultAsync(predicate);
 
-            return model;
+            //if (data == null)
+            //{
+            //    throw new NotFoundException("RECORD_NOT_FOUND");
+            //}
+            return data;
+
+
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null)
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null, bool tracking = true)
         {
             var query = _table.AsQueryable();
-            if (true)
-            {
-                query = query.AsNoTracking();
-            }
 
-            if (predicate != null)
-            {
+            if (!tracking)
+                query = query.AsNoTracking();
+
+            if (predicate is not null)
                 query = query.Where(predicate);
-            }
 
             return query;
         }
 
-        public void Remove(T model)
+        public async Task RemoveAsync(T model)
         {
             _db.Remove(model);
-            Save();
+            await SaveAsync();
         }
 
-        public int Save()
+        public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
         {
-            return _db.SaveChanges();
+            return await _db.SaveChangesAsync(cancellationToken);
         }
     }
 }

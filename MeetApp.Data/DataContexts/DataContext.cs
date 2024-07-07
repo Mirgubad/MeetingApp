@@ -31,7 +31,7 @@ namespace MeetApp.Data.DataContexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
 
-        public override int SaveChanges()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var changes = this.ChangeTracker.Entries<IAuditableEntity>();
 
@@ -71,7 +71,7 @@ namespace MeetApp.Data.DataContexts
                 }
             }
 
-            return base.SaveChanges();
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
     }

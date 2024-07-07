@@ -25,7 +25,6 @@ public class Program
 
         });
 
-        DataServiceInjection.InstallDataServices(builder.Services, builder.Configuration);
 
         builder.Services.AddRouting(cfg => cfg.LowercaseUrls = true);
 
@@ -38,6 +37,7 @@ public class Program
         //builder.Services.AddSingleton<IFileService, FileService>();
         builder.Services.AddScoped<IIdentityService, IdentityService>();
         //builder.Services.AddScoped<IClaimsTransformation, AppClaimProvider>();
+        DataServiceInjection.InstallDataServices(builder.Services, builder.Configuration);
 
         builder.Services.AddMediatR(cfg =>
         {
@@ -85,10 +85,15 @@ public class Program
 
         });
 
+
+
+
         var app = builder.Build();
+
 
         app.UseStaticFiles();
         app.UseRouting();
+
 
         app.UseAuthentication();
         app.UseAuthorization();
@@ -228,3 +233,4 @@ public class ChatHub : Hub
 //        return ConnectedUsers.Keys;
 //    }
 //}
+

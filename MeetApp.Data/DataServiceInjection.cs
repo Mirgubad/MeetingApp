@@ -31,7 +31,12 @@ namespace MeetApp.Data
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<UserManager<MeetAppUser>>();
+            //services.AddScoped<UserManager<MeetAppUser>>();
+            //using (var scope = services.CreateScope())
+            //{
+            //    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<MeetAppUser>>();
+            //}
+
             services.AddScoped<RoleManager<MeetAppRole>>();
             services.AddScoped<SignInManager<MeetAppUser>>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();

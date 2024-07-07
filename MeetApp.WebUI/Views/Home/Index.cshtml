@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MeetApp.Business.Modules.MeetingModule.Commands.MeetingCreateCommand
+@model MeetingCreateRequest
+@{
     ViewData["Title"] = "Home Page";
 }
 <section>
@@ -10,10 +12,10 @@
             <p>Connect, collaborate and celebrate from anywhere with AZ Meet</a></p>
         </div>
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a class="btn btn-primary" asp-action="call" asp-controller="home" asp-route-roomId="@Guid.NewGuid().ToString()">New Meeting</a>
-            <form>
+            <a class="btn btn-primary" asp-action="CreateMeet" asp-controller="home">New Meeting</a>
+            <form method="post" asp-action="index">
                 <div class="form-group d-flex gap-2">
-                    <input class="form-control" placeholder="Enter a code or nickname" />
+                    <input asp-for="NickName" class="form-control" placeholder="Enter a code or nickname" />
                     <button type="submit" class="btn btn-primary">Join</button>
                 </div>
             </form>

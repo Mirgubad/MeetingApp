@@ -6,13 +6,12 @@ namespace MeetApp.Infrastructure.Commons.Abstracts
         where T : class
     {
 
-        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null);
-        T Get(Expression<Func<T, bool>> predicate = null);
-        T Add(T model);
-        T Edit(T model);
-        void Remove(T model);
-
-        int Save();
+        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null, bool tracking = false);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate = null);
+        Task<T> AddAsync(T model);
+        Task<T> EditAsync(T model);
+        Task RemoveAsync(T model);
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
 
     }
 }

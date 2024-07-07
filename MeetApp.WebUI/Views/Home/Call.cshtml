@@ -1,9 +1,11 @@
-﻿@using MeetApp.Infrastructure.Services.Abstracts
-@inject IDateTimeService dateTimeService;
-@{
+﻿@{
     Layout = null;
-
 }
+@using MeetApp.Business.Modules.MeetingModule.Commands.MeetingJoinCommand
+@using MeetApp.Infrastructure.Services.Abstracts
+@inject IDateTimeService dateTimeService;
+@model MeetingJoinDto;
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +34,8 @@
 
         <section class="section section-lg">
 
-            <input type="hidden" value="@ViewBag.roomId" id="roomId" />
-            <input type="hidden" value="@ViewBag.userName" id="userName" />
+            <input type="hidden" asp-for="MeetingId" id="roomId" />
+            <input type="hidden" asp-for="UserFullname" id="userName" />
 
             <div class="container chat-container mt-3">
                 <div class="video-container">
@@ -55,76 +57,79 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="bottom-container">
 
-                <div class="bottom-container">
+                <div class="bottom-info">
+                    <div class="d-flex align-items-baseline gap-4 text-light">
+                        <h6 id="room-name">@Model.UserFullname</h6>
+                        <span>|</span>
+                        <span class="date-time">@dateTimeService.ExecutingTime.ToString("HH:mm")</span>
+                        <span>|</span>
+                        <h6 class="nickname">@(Model.Nickname is not null ? Model.Nickname : ViewBag.ShortChatId)</h6>
+                    </div>
+                </div>
 
-                    <div class="bottom-info">
-                        <div class="d-flex align-items-baseline gap-4 text-light">
-                            <h6 id="room-name"> Firstname Lastname</h6>
-                            <span class="date-time">@dateTimeService.ExecutingTime.ToString("HH:mm")</span>
+                <div class="video-controls">
+
+                    <div class="call-share">
+                        <button title="share call" id="call-share-button" class="button">
+                            <i class="fa-regular fa-plus"></i>
+                        </button>
+
+                        <div class="call-share__modal">
+                            <a title="Copy link" id="copy-link-button" class="button">
+                                <i class="fa-regular fa-copy"></i>
+                            </a>
+
+                            <a title="Share by WhatsApp" id="share-whatsapp-button" class="button">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="video-controls">
+                    <button title="share screen" id="screen-share-button" class="button">
+                        <i class="fa-regular fa-screencast"></i>
+                    </button>
 
-                        <div class="call-share">
-                            <button title="share call" id="call-share-button" class="button">
-                                <i class="fa-regular fa-plus"></i>
-                            </button>
+                    <button title="mute voice" id="mute-button" class="button">
+                        <span class="not-paused audio">
+                            <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path>
+                            </svg>
+                        </span>
 
-                            <div class="call-share__modal">
-                                <a title="Copy link" id="copy-link-button" class="button">
-                                    <i class="fa-regular fa-copy"></i>
-                                </a>
+                        <span class="paused audio">
+                            <svg fill="#FFF" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000000" class="Hdh4hc cIGbvc"><path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path></svg>
+                        </span>
+                    </button>
 
-                                <a title="Share by WhatsApp" id="share-whatsapp-button" class="button">
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </a>
-                            </div>
-                        </div>
+                    <button title="pause video" id="pause-video-button" class="button">
+                        <span class="not-paused video">
+                            <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79V18H4V6h12v3.69z"></path></svg>
+                        </span>
+                        <span class="paused video">
+                            <svg fill="#FFF" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M"><path d="M18 10.48V6c0-1.1-.9-2-2-2H6.83l2 2H16v7.17l2 2v-1.65l4 3.98v-11l-4 3.98zM16 16L6 6 4 4 2.81 2.81 1.39 4.22l.85.85C2.09 5.35 2 5.66 2 6v12c0 1.1.9 2 2 2h12c.34 0 .65-.09.93-.24l2.85 2.85 1.41-1.41L18 18l-2-2zM4 18V6.83L15.17 18H4z"></path></svg>
+                        </span>
+                    </button>
 
-                        <button title="share screen" id="screen-share-button" class="button">
-                            <i class="fa-regular fa-screencast"></i>
-                        </button>
-
-                        <button title="mute voice" id="mute-button" class="button">
-                            <span class="not-paused audio">
-                                <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M">
-                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
-                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path>
-                                </svg>
-                            </span>
-
-                            <span class="paused audio">
-                                <svg fill="#FFF" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000000" class="Hdh4hc cIGbvc"><path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path></svg>
-                            </span>
-                        </button>
-
-                        <button title="pause video" id="pause-video-button" class="button">
-                            <span class="not-paused video">
-                                <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79V18H4V6h12v3.69z"></path></svg>
-                            </span>
-                            <span class="paused video">
-                                <svg fill="#FFF" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M"><path d="M18 10.48V6c0-1.1-.9-2-2-2H6.83l2 2H16v7.17l2 2v-1.65l4 3.98v-11l-4 3.98zM16 16L6 6 4 4 2.81 2.81 1.39 4.22l.85.85C2.09 5.35 2 5.66 2 6v12c0 1.1.9 2 2 2h12c.34 0 .65-.09.93-.24l2.85 2.85 1.41-1.41L18 18l-2-2zM4 18V6.83L15.17 18H4z"></path></svg>
-                            </span>
-                        </button>
-
-                        <button title="leave call" onclick="cancelCall()" asp-action="conferences" asp-controller="account" class="button btn-danger button-hangup" style="order:1">
-                            <i class="fa-solid fa-phone-hangup"></i>
-                        </button>
-                    </div>
-
-                    <div class="bottom-right d-flex justify-content-end">
-                        <button title="messages" id="messageBtn" class="button btn-success messageBtn" style="order:1;overflow:unset">
-                            <i class="fa-regular fa-message-lines"></i>
-                            <span id="messageCount">1</span>
-                        </button>
-                    </div>
-
+                    <button title="leave call" onclick="cancelCall()" asp-action="conferences" asp-controller="account" class="button btn-danger button-hangup" style="order:1">
+                        <i class="fa-solid fa-phone-hangup"></i>
+                    </button>
                 </div>
 
-                <div>
+                <div class="bottom-right d-flex justify-content-end">
+                    <button title="messages" id="messageBtn" class="button btn-success messageBtn" style="order:1;overflow:unset">
+                        <i class="fa-regular fa-message-lines"></i>
+                        <span id="messageCount">1</span>
+                    </button>
                 </div>
+
+            </div>
+
+            <div>
+            </div>
         </section>
     </main>
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>

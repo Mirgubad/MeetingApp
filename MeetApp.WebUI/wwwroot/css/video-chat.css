@@ -3,6 +3,8 @@
     overflow: hidden;
 }
 
+
+
 input[type="text"] {
     outline: none;
     background: none;
@@ -64,6 +66,7 @@ input[type="text"] {
 }
 
 .button {
+    all: unset;
     margin: 5px;
     border: none;
     width: 40px;
@@ -76,6 +79,13 @@ input[type="text"] {
     align-items: center;
     box-shadow: none;
     transition: background .3s ease;
+    cursor: pointer;
+}
+
+a.button {
+    text-decoration: none;
+    color: #FFF;
+    font-size: 20px;
 }
 
 .button-hangup {
@@ -131,15 +141,42 @@ span[name] {
     border-bottom: 1px solid #000444;
 }
 
-#chat {
-    display: none;
+/*#chat {
     max-height: 87vh;
     height: 86vh;
     max-width: 350px;
-    width: 100%;
+    width: 0;
     position: relative;
     margin-inline-start: 10px;
+    opacity: 0;
+    transform: translate(100%);
+    transition: opacity .3s ease-in-out, transform .3s ease-in-out, width .3s ease-in-out;*/ /* Apply transitions */
+/*}
+
+    #chat.opened {
+        display: block;
+        opacity: 1;
+        width: 100%;
+        transform: translate(0);
+    }*/
+
+#chat {
+    max-height: 87vh;
+    height: 86vh;
+    max-width: 350px;
+    width: 0; /* Start with zero width */
+    overflow: hidden; /* Hide overflowing content */
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity .3s ease-in-out, transform .3s ease-in-out, width .3s ease-in-out; /* Apply transitions */
 }
+
+    #chat.opened {
+        width: 100%; /* Set to the final width */
+        opacity: 1;
+        margin-inline-start: 10px;
+        transform: translateX(0); /* Slide in */
+    }
 
 
 #chatCloseBtn {
@@ -155,6 +192,7 @@ span[name] {
     border-radius: 10px;
     overflow: hidden;
     height: 100%;
+    width: 100%;
 }
 
 .messages {
@@ -237,6 +275,7 @@ div[video-grid] > video {
     display: flex;
     align-items: start;
     flex-wrap: wrap;
+    overflow-x: hidden;
 }
 
 #messageBtn {
@@ -338,3 +377,22 @@ div[video-grid] > video {
 .bottom-right {
     flex: 3;
 }
+
+
+.call-share {
+    position: relative;
+}
+
+.call-share__modal {
+    display: flex;
+    position: absolute;
+    top: -3.3rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    visibility: hidden;
+}
+
+    .call-share__modal.opened {
+        opacity: 1;
+        visibility: visible;
+    }

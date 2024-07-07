@@ -28,15 +28,13 @@
 
 </head>
 <body>
-
     <main role="main">
 
-
-        <input type="hidden" value="@ViewBag.roomId" id="roomId" />
-        <input type="hidden" value="@ViewBag.userName" id="userName" />
-
-
         <section class="section section-lg">
+
+            <input type="hidden" value="@ViewBag.roomId" id="roomId" />
+            <input type="hidden" value="@ViewBag.userName" id="userName" />
+
             <div class="container chat-container mt-3">
                 <div class="video-container">
                     <div id="userVideoContainer" class="video-grid">
@@ -47,7 +45,7 @@
 
                 <div id="chat" class="chat-container">
                     <div class="chat">
-                        <a onclick="checkMessage()" id="chatCloseBtn"><i class="fa-light fa-xmark"></i></a>
+                        <a id="chatCloseBtn"><i class="fa-light fa-xmark"></i></a>
                         <ul id="messages" class="messages"></ul>
                         <div class="send-container">
                             <div class="input-container">
@@ -59,17 +57,37 @@
                 </div>
 
                 <div class="bottom-container">
+
                     <div class="bottom-info">
                         <div class="d-flex align-items-baseline gap-4 text-light">
-                            <h6 id="room-name">Firstname Lastname</h6>
+                            <h6 id="room-name"> Firstname Lastname</h6>
                             <span class="date-time">@dateTimeService.ExecutingTime.ToString("HH:mm")</span>
                         </div>
                     </div>
+
                     <div class="video-controls">
-                        <button id="screen-share-button" class="button">
+
+                        <div class="call-share">
+                            <button title="share call" id="call-share-button" class="button">
+                                <i class="fa-regular fa-plus"></i>
+                            </button>
+
+                            <div class="call-share__modal">
+                                <a title="Copy link" id="copy-link-button" class="button">
+                                    <i class="fa-regular fa-copy"></i>
+                                </a>
+
+                                <a title="Share by WhatsApp" id="share-whatsapp-button" class="button">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <button title="share screen" id="screen-share-button" class="button">
                             <i class="fa-regular fa-screencast"></i>
                         </button>
-                        <button id="mute-button" class="button">
+
+                        <button title="mute voice" id="mute-button" class="button">
                             <span class="not-paused audio">
                                 <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M">
                                     <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
@@ -81,7 +99,8 @@
                                 <svg fill="#FFF" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000000" class="Hdh4hc cIGbvc"><path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path></svg>
                             </span>
                         </button>
-                        <button id="pause-video-button" class="button">
+
+                        <button title="pause video" id="pause-video-button" class="button">
                             <span class="not-paused video">
                                 <svg fill="#fff" focusable="false" width="24" height="24" viewBox="0 0 24 24" class="Hdh4hc cIGbvc NMm5M"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79V18H4V6h12v3.69z"></path></svg>
                             </span>
@@ -96,7 +115,7 @@
                     </div>
 
                     <div class="bottom-right d-flex justify-content-end">
-                        <button id="messageBtn" class="button btn-success messageBtn" style="order:1;overflow:unset">
+                        <button title="messages" id="messageBtn" class="button btn-success messageBtn" style="order:1;overflow:unset">
                             <i class="fa-regular fa-message-lines"></i>
                             <span id="messageCount">1</span>
                         </button>
@@ -108,12 +127,12 @@
                 </div>
         </section>
     </main>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/peerjs/peerjs.js"></script>
-    <script src="~/lib/microsoft-signalr/signalr.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
-    <script src="~/js/meetTest.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/peerjs/peerjs.js"></script>
+    <script type="text/javascript" src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/meet.js" asp-append-version="true"></script>
 
 </body>
 </html>

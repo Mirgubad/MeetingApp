@@ -41,7 +41,8 @@ namespace MeetApp.Business.Modules.MeetingModule.Commands.MeetingJoinCommand
             var dto = new MeetingJoinDto
             {
                 MeetingId = meeting.Id,
-                UserFullname = userMeeting.Fullname
+                UserFullname = userMeeting.Fullname,
+                UserEmail = userMeeting.Email,
             };
 
             return dto;

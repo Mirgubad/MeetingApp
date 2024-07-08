@@ -35,7 +35,8 @@
         <section class="section section-lg">
 
             <input type="hidden" asp-for="MeetingId" id="roomId" />
-            <input type="hidden" asp-for="UserFullname" id="userName" />
+            <input type="hidden" asp-for="UserFullname" id="userFullName" />
+            <input type="hidden" asp-for="UserEmail" id="userEmail" />
 
             <div class="container chat-container mt-3">
                 <div class="video-container">
@@ -133,11 +134,11 @@
         </section>
     </main>
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/lib/peerjs/peerjs.js"></script>
     <script type="text/javascript" src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script type="text/javascript" src="~/lib/peerjs/peerjs.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/js/meet.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/meet.js"></script>
 
 </body>
 </html>

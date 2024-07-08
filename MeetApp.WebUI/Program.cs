@@ -1,13 +1,13 @@
 using MeetApp.Business;
 using MeetApp.Data;
 using MeetApp.Infrastructure.Commons.Concretes;
+using MeetApp.Infrastructure.Hubs;
 using MeetApp.Infrastructure.Services.Abstracts;
 using MeetApp.Infrastructure.Services.Concretes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.SignalR;
 
 public class Program
 {
@@ -17,6 +17,7 @@ public class Program
         //ReadAllPolicies();
 
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews(cfg =>
         {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -25,8 +26,20 @@ public class Program
 
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyMethod()
+                                  .AllowAnyHeader()
+                                  .AllowCredentials()
+                                  .WithOrigins("http://your-client-domain.com"));
+        });
+
+
+
 
         builder.Services.AddRouting(cfg => cfg.LowercaseUrls = true);
+
 
         builder.Services.Configure<EmailOptions>(cfg =>
         {
@@ -90,7 +103,7 @@ public class Program
 
         var app = builder.Build();
 
-
+        app.UseCors("CorsPolicy");
         app.UseStaticFiles();
         app.UseRouting();
 
@@ -109,7 +122,6 @@ public class Program
 
         });
 
-        app.Run();
 
         app.MapHub<ChatHub>("/chathub");
 
@@ -142,49 +154,49 @@ public class Program
 
 
 
-public static class Users
-{
-    public static IDictionary<string, string> list = new Dictionary<string, string>();
+//public static class Users
+//{
+//    public static IDictionary<string, string> list = new Dictionary<string, string>();
 
-}
-public class ChatHub : Hub
-{
-    private readonly ILogger<ChatHub> _logger;
-
-
-    public ChatHub(
-        ILogger<ChatHub> logger)
+//}
+//public class ChatHub : Hub
+//{
+//    private readonly ILogger<ChatHub> _logger;
 
 
-    {
-        _logger = logger;
+//    public ChatHub(
+//        ILogger<ChatHub> logger)
 
-    }
 
-    public override Task OnConnectedAsync()
-    {
-        _logger.LogInformation($"New connection established : {Context.ConnectionId}");
+//    {
+//        _logger = logger;
 
-        return base.OnConnectedAsync();
-    }
+//    }
 
-    public override Task OnDisconnectedAsync(Exception exception)
-    {
-        Clients.All.SendAsync("user-disconnected", Users.list[Context.ConnectionId]);
-        return base.OnDisconnectedAsync(exception);
-    }
-    public async Task JoinRoom(string roomId, string userId)
-    {
-        Users.list.Add(Context.ConnectionId, userId);
-        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
-        await Clients.Group(roomId).SendAsync("user-connected", userId);
-    }
+//    public override Task OnConnectedAsync()
+//    {
+//        _logger.LogInformation($"New connection established : {Context.ConnectionId}");
 
-    public async Task SendMessage(string message)
-    {
-        await Clients.All.SendAsync("ReceiveMessage", "_userService.GetCurrentUserFullName()", message); ;
-    }
-}
+//        return base.OnConnectedAsync();
+//    }
+
+//    public override Task OnDisconnectedAsync(Exception exception)
+//    {
+//        Clients.All.SendAsync("user-disconnected", Users.list[Context.ConnectionId]);
+//        return base.OnDisconnectedAsync(exception);
+//    }
+//    public async Task JoinRoom(string roomId, string userId)
+//    {
+//        Users.list.Add(Context.ConnectionId, userId);
+//        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+//        await Clients.Group(roomId).SendAsync("user-connected", userId);
+//    }
+
+//    public async Task SendMessage(string message)
+//    {
+//        await Clients.All.SendAsync("ReceiveMessage", "_userService.GetCurrentUserFullName()", message); ;
+//    }
+//}
 
 
 //public class ChatHub : Hub
